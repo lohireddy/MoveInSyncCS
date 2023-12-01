@@ -16,14 +16,13 @@ public class UserService {
 
     }
 
-    public Float getUserLocationX(Integer userId){
+    public Float getUserLocationX(int userId){
         return userRepo.getUserLocationX(userId);
     }
-    public Float getUserLocationY(Integer userId){
+    public Float getUserLocationY(int userId){
         return userRepo.getUserLocationY(userId);
     }
-    public Optional<User> getUserData(Integer userId) {
-        Optional<User> user = userRepo.findById(userId);
-        return user;
+    public Optional<User> getUserData(int userId) {
+        return userRepo.findById(userId);
     }
 }

@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class Cab {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer cabId;
+    private int cabId;
     private Float xCoCab;
     private Float yCoCab;
     private Boolean available;

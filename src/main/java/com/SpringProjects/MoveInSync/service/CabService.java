@@ -14,8 +14,16 @@ public class CabService{
     @Autowired
     CabRepo cabRepo;
 
-    public Optional<Cab> getCabData(Integer cabId) {
+    public Optional<Cab> getCabData(int cabId) {
         Optional<Cab> cab = cabRepo.findById(cabId);
         return cab;
+    }
+
+    public Float getCabLocationX(int cabId) {
+        return cabRepo.getCabLocationX(cabId);
+    }
+
+    public Float getCabLocationY(int cabId) {
+        return cabRepo.getCabLocationY(cabId);
     }
 }

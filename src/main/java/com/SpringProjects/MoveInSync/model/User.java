@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userId;
+    private int userId;
     private Float xCoUser;
     private Float yCoUser;
-    private Integer userRegion;
+    private int userRegion;
 }

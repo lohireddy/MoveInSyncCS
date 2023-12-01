@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
 public interface UserRepo extends JpaRepository<User,Integer> {
 
     @Query(value = "select u.xCoUser from User u where u.userId=:userId")
-    Float getUserLocationX(Integer userId);
+    Float getUserLocationX(int userId);
 
     @Query(value = "select u.yCoUser from User u where u.userId=:userId")
-    Float getUserLocationY(Integer userId);
+    Float getUserLocationY(int userId);
 }

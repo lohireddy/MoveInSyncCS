@@ -9,8 +9,9 @@ import org.springframework.stereotype.Repository;
 public interface CabRepo extends JpaRepository<Cab, Integer> {
 
     @Query(value = "select c.xCoCab from Cab c where c.cabId=:cabId")
-    Float getCabXco(Integer cabId);
+    Float getCabLocationX(int cabId);
 
     @Query(value = "select c.yCoCab from Cab c where c.cabId=:cabId")
-    Float getCabYco(Integer cabId);
+    Float getCabLocationY(int cabId);
+
 }

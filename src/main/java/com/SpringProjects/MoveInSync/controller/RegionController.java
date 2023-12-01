@@ -12,10 +12,10 @@ public class RegionController {
     @Autowired
     RegionService regionService;
 
-    public void updateRegion(Integer regionId){
+    public void updateRegion(int regionId){
 
     }
-    public void addCabInRegion(Integer cabId){
+    public void addCabInRegion(int cabId){
 
     }
 }

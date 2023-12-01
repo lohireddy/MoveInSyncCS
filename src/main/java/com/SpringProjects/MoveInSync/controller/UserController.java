@@ -13,9 +13,13 @@ public class UserController {
     @Autowired
     UserService userService;
     @GetMapping("/getUserData/{userId}")
-    public User getUserData(@PathVariable Integer userId){
-        Optional<User> user = userService.getUserData(userId);
-        return user.get();
+    public Optional<User> getUserData(@PathVariable int userId){
+        return userService.getUserData(userId);
+    }
+
+    @GetMapping("/getUserLocationX/{userId}")
+    public Float getUserLocationX(@PathVariable int userId){
+        return userService.getUserLocationX(userId);
     }
 
 

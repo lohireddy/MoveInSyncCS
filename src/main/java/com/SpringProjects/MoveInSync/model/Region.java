@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -14,9 +14,9 @@ import java.util.ArrayList;
 @NoArgsConstructor
 public class Region {
     @Id
-    private Integer regionId;
-    private ArrayList<Integer> neighboringRegions;
-    private ArrayList<Integer> cabsAvailable;
+    private int regionId;
+    private List<Integer> neighboringRegions;
+    private List<Integer> cabsAvailable;
 
     public void addCab(int cabId){
         cabsAvailable.add(cabId);
@@ -25,7 +25,14 @@ public class Region {
         cabsAvailable.remove(cabId);
     }
 
-    public void addNeighbor(Integer regionId, Integer neighborId) {
+    public void addNeighbor(int regionId, int neighborId) {
 
+    }
+    public int getRegionId() {
+        return regionId;
+    }
+
+    public List<Integer> getCabsAvailable(){
+        return cabsAvailable;
     }
 }

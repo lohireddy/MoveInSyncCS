@@ -42,7 +42,7 @@ public class RegionDataInit {
         return regions;
     }
 
-    private void addNeighbor(Region region, Integer regionId, int row, int col, int regionsPerRow) {
+    private void addNeighbor(Region region, int regionId, int row, int col, int regionsPerRow) {
         if (isValidRegion(row, col, regionsPerRow)) {
             int neighborId = (row - 1) * regionsPerRow + col;
             region.addNeighbor(regionId,neighborId);

@@ -7,13 +7,11 @@ import com.SpringProjects.MoveInSync.service.CabService;
 import com.SpringProjects.MoveInSync.service.RegionService;
 import com.SpringProjects.MoveInSync.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/cab")
@@ -26,12 +24,11 @@ public class CabController {
     @Autowired
     RegionService regionService;
     @GetMapping("/getCabData/{cabId}")
-    public Cab getCabData(@PathVariable Integer cabId){
-        Optional<Cab> cab = cabService.getCabData(cabId);
-        return cab.get();
+    public Optional<Cab> getCabData(@PathVariable int cabId){
+        return cabService.getCabData(cabId);
     }
     @PostMapping("/bookCab/{userId}")
-    public ResponseEntity<String> bookCab(@PathVariable Integer userId){
+    public ResponseEntity<String> bookCab(@PathVariable int userId){
         Optional<User> user = userService.getUserData(userId);
         if(user.isEmpty()){
             return ResponseEntity.notFound().build();
@@ -39,13 +36,70 @@ public class CabController {
 
         Float userLocationX = userService.getUserLocationX(userId);
         Float userLocationY = userService.getUserLocationY(userId);
-        Integer regionId = getRegionId(userLocationX,userLocationY);
+        int regionId = getRegionId(userLocationX,userLocationY);
         List<Region> regionList = regionService.findAll();
-        bfs(userLocationX,userLocationY,regionId);
-        return new ResponseEntity<>("ok ok", HttpStatus.OK);
+        bfs(userLocationX,userLocationY,regionId,regionList);
+        return new ResponseEntity<>("Succesfully boooked your cab", HttpStatus.OK);
     }
 
-    private Integer getRegionId(Float userLocationX, Float userLocationY) {
+    private void bfs(Float userLocationX, Float userLocationY, int regionId, List<Region> regionList) {
+        Queue<Integer> queue = new LinkedList<>();
+        Set<Integer> visited = new HashSet<>();
+        queue.offer(regionId);
+        visited.add(regionId);
+
+        while (!queue.isEmpty()){
+            int currRegionId = queue.poll();
+            try {
+
+                Region currentRegion = getRegionById(currRegionId,regionList);
+                assert currentRegion != null;
+
+
+                    if (currentRegion.getCabsAvailable()!=null){
+                        int nearestCabId = getNearestCab(userLocationX,userLocationY,currentRegion.getCabsAvailable());
+                    }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private int getNearestCab(Float userLocationX, Float userLocationY, List<Integer> cabsAvailable) {
+        int nearestCabId = cabsAvailable.get(0);
+        Float minDistance = calculateDistance(userLocationX,userLocationY,getCabLocationX(nearestCabId),getCabLocationY(nearestCabId));
+        for (int cabId: cabsAvailable){
+            Float distance = calculateDistance(userLocationX,userLocationY,getCabLocationX(cabId),getCabLocationY(cabId));
+            if(distance<minDistance){
+                minDistance = distance;
+                nearestCabId = cabId;
+            }
+        }
+        return nearestCabId;
+    }
+
+    private Float calculateDistance(Float userLocationX, Float userLocationY, Float cabLocationX, Float cabLocationY) {
+        return (float) Math.sqrt(Math.pow(cabLocationX - userLocationX, 2) + Math.pow(cabLocationY - userLocationY, 2));
+    }
+
+    private Float getCabLocationX(int cabId) {
+        return cabService.getCabLocationX(cabId);
+    }
+    private Float getCabLocationY(int cabId) {
+        return cabService.getCabLocationY(cabId);
+    }
+
+    private Region getRegionById(int currRegionId, List<Region> regionList) {
+        for (Region region : regionList) {
+            if (region.getRegionId() == currRegionId) {
+                return region;
+            }
+        }
+        return null;
+    }
+
+    public int getRegionId(Float userLocationX, Float userLocationY) {
         int gridSize = 20;
         int regionsPerRow = gridSize/2;
 
